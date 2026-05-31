@@ -30,9 +30,7 @@ class ChatRequest(BaseModel):
 api_key = os.environ.get("GROQ_API_KEY")
 
 if not api_key:
-    # This will show up clearly in your Vercel logs and stop the 500 error from being ambiguous
-    print("CRITICAL ERROR: GROQ_API_KEY is missing from environment variables!")
-    raise ValueError("GROQ_API_KEY is not set")
+    raise ValueError("GROQ_API_KEY is not set in environment variables")
 
 synapse = ChatGroq(
     temperature=0.1,
@@ -63,10 +61,13 @@ async def chat_with_paradigm(req: ChatRequest):
     full_history = [SystemMessage(content=system_instruction)]
     
     for msg in req.history:
-        if msg.role == "user":
-            full_history.append(HumanMessage(content=msg.text))
-        elif msg.role == "ai":
-            full_history.append(AIMessage(content=msg.text))
+        if msg.text and msg.text.strip():
+            if msg.role == "user":
+                full_history.append(HumanMessage(content=msg.text))
+            elif msg.role == "ai":
+                full_history.append(AIMessage(content=msg.text))
+            
+    full_history.append(HumanMessage(content=req.message))
             
     response: ParadigmResponse = structured_synapse.invoke(full_history)
     
@@ -78,14 +79,13 @@ async def chat_with_paradigm(req: ChatRequest):
 # ENDPOINT 2: THE PDF & DOCUMENT READER
 @app.post("/api/upload")
 async def upload_file(file: UploadFile = File(...)):
-    extracted_text = ""
     try:
+        content = await file.read()
         if file.filename.lower().endswith(".pdf"):
-            pdf_reader = PyPDF2.PdfReader(io.BytesIO(await file.read()))
-            for page in pdf_reader.pages:
-                extracted_text += page.extract_text() + "\n"
+            pdf_reader = PyPDF2.PdfReader(io.BytesIO(content))
+            extracted_text = "".join([page.extract_text() for page in pdf_reader.pages])
         else:
-            extracted_text = (await file.read()).decode("utf-8", errors="ignore")
+            extracted_text = content.decode("utf-8", errors="ignore")
             
         return {"extracted_text": extracted_text[:10000]}
         
