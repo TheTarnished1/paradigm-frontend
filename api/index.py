@@ -27,11 +27,17 @@ class ChatRequest(BaseModel):
     history: List[ChatMessage]
     context: str = ""
 
-# INITIALIZE GROQ
+api_key = os.environ.get("GROQ_API_KEY")
+
+if not api_key:
+    # This will show up clearly in your Vercel logs and stop the 500 error from being ambiguous
+    print("CRITICAL ERROR: GROQ_API_KEY is missing from environment variables!")
+    raise ValueError("GROQ_API_KEY is not set")
+
 synapse = ChatGroq(
     temperature=0.1,
     model_name="llama3-8b-8192",
-    api_key=os.environ.get("GROQ_API_KEY")
+    api_key=api_key
 )
 structured_synapse = synapse.with_structured_output(ParadigmResponse)
 
