@@ -426,7 +426,7 @@ function getCards(topic) {
  
 async function ask(system, user) {
   try {
-    const res = await fetch("https://paradigm-q55h.onrender.com/api/chat", {
+    const res = await fetch("/api/chat", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -512,32 +512,31 @@ export default function App() {
   };
  
   const handleFileUpload = async (e) => {
-    const file = e.target.files[0];
-    if (!file) return;
+    const file = e.target.files[0];
+    if (!file) return;
 
-    setUploading(true);
-    const formData = new FormData();
-    formData.append("file", file);
+    setUploading(true);
+    const formData = new FormData();
+    formData.append("file", file);
 
-    try {
-      // NOTE: You will need to create this endpoint in your Python backend!
-      const res = await fetch("https://paradigm-q55h.onrender.com/api/upload", {
-        method: "POST",
-        body: formData,
-      });
-      const data = await res.json();
-      
-      if (data.extracted_text) {
-        setFileContext(prev => prev + "\n\n--- DOCUMENT CONTENT ---\n" + data.extracted_text);
-        setChatHistory(prev => [...prev, { role: "ai", text: `📄 I've successfully processed and stored "${file.name}". How should we use this material?` }]);
-      }
-    } catch (err) {
-      console.error(err);
-      setChatHistory(prev => [...prev, { role: "ai", text: "❌ Connection failed while trying to upload the file." }]);
-    } finally {
-      setUploading(false);
-    }
-  };
+    try {
+      const res = await fetch("/api/upload", {
+        method: "POST",
+        body: formData,
+      });
+      const data = await res.json();
+      
+      if (data.extracted_text) {
+        setFileContext(prev => prev + "\n\n--- DOCUMENT CONTENT ---\n" + data.extracted_text);
+        setChatHistory(prev => [...prev, { role: "ai", text: `📄 I've successfully processed and stored "${file.name}". How should we use this material?` }]);
+      }
+    } catch (err) {
+      console.error(err);
+      setChatHistory(prev => [...prev, { role: "ai", text: "❌ Connection failed while trying to upload the file." }]);
+    } finally {
+      setUploading(false);
+    }
+  };
 
   const doExplain = async () => {
     setLoadingExplain(true); setExplain("");
@@ -567,39 +566,39 @@ export default function App() {
     setFeedback(fb); setQuizStage("done");
   };
 
-  const askParadigm = async (userMessage) => {
-    if (!userMessage.trim()) return;
-  
-    const newHistory = [...chatHistory, { role: "user", text: userMessage }];
-    setChatHistory(newHistory);
-    setChatInput(""); 
-    setIsChatLoading(true);
-  
-    try {
-      const contextString = `Current Course: ${course?.name} (${course?.sub}). Topic: ${topic?.title}. Context Docs: ${fileContext}`;
-      
-      const res = await fetch("https://paradigm-q55h.onrender.com/api/chat", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ 
-          message: userMessage, 
-          history: newHistory,
-          context: contextString 
-        })
-      });
-      
-      const d = await res.json();
-      
-      setChatHistory(prev => [...prev, { role: "ai", text: d.reply || "Error reading response." }]);
-      if (d.action) handleUiAction(d.action);
+ const askParadigm = async (userMessage) => {
+    if (!userMessage.trim()) return;
+  
+    const newHistory = [...chatHistory, { role: "user", text: userMessage }];
+    setChatHistory(newHistory);
+    setChatInput(""); 
+    setIsChatLoading(true);
+  
+    try {
+      const contextString = `Current Course: ${course?.name} (${course?.sub}). Topic: ${topic?.title}. Context Docs: ${fileContext}`;
+      
+      const res = await fetch("/api/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ 
+          message: userMessage, 
+          history: newHistory,
+          context: contextString 
+        })
+      });
+      
+      const d = await res.json();
+      
+      setChatHistory(prev => [...prev, { role: "ai", text: d.reply || "Error reading response." }]);
+      if (d.action) handleUiAction(d.action);
 
-    } catch (err) {
-      console.error(err);
-      setChatHistory(prev => [...prev, { role: "ai", text: "Connection error. Is the server awake?" }]);
-    } finally {
-      setIsChatLoading(false);
-    }
-  };
+    } catch (err) {
+      console.error(err);
+      setChatHistory(prev => [...prev, { role: "ai", text: "Connection error. Is the server awake?" }]);
+    } finally {
+      setIsChatLoading(false);
+    }
+  };
  
   const inputBase = {
     width: "100%", padding: 14, background: "#0d1117",
