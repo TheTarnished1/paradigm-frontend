@@ -425,20 +425,22 @@ function getCards(topic) {
 }
  
 async function ask(system, user) {
-  try {
-    const res = await fetch("http://127.0.0.1:8000/api/chat", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        message: `${system}\n\nUSER PROMPT: ${user}`
-      })
-    });
-    const d = await res.json();
-    return d.reply || "Error. Try again.";
-  } catch (err) { 
-    console.error(err);
-    return "Network error. Is the Python API running at localhost:8000?"; 
-  }
+  try {
+    const res = await fetch("https://paradigm-q55h.onrender.com/api/chat", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        message: user,
+        context: system,
+        history: [] // Flashcard queries don't need chat history
+      })
+    });
+    const d = await res.json();
+    return d.reply || "Error. Try again.";
+  } catch (err) { 
+    console.error(err);
+    return "Network error. Is the server awake?"; 
+  }
 }
  
 export default function App() {
@@ -524,7 +526,7 @@ export default function App() {
         body: formData,
       });
       const data = await res.json();
-      
+      
       if (data.extracted_text) {
         setFileContext(prev => prev + "\n\n--- DOCUMENT CONTENT ---\n" + data.extracted_text);
         setChatHistory(prev => [...prev, { role: "ai", text: `📄 I've successfully processed and stored "${file.name}". How should we use this material?` }]);
@@ -949,7 +951,7 @@ export default function App() {
                     maxWidth: "85%",
                     textAlign: "left",
                     lineHeight: 1.5,
-                    whiteSpace: "pre-wrap"
+                    whiteSpace: "pre-wrap"
                   }}>
                     {msg.text}
                   </span>
@@ -965,35 +967,35 @@ export default function App() {
             </div>
             
             <div style={{ display: "flex", margin: 10, gap: 8 }}>
-              {/* FILE UPLOAD BUTTON */}
-              <label style={{
-                background: "#1e2a3a", borderRadius: 12, width: 44, height: 44, 
-                display: "flex", alignItems: "center", justifyContent: "center",
-                cursor: uploading ? "not-allowed" : "pointer", opacity: uploading ? 0.5 : 1
-              }}>
-                <input 
-                  type="file" 
-                  onChange={handleFileUpload} 
-                  style={{ display: "none" }} 
-                  disabled={uploading} 
-                  accept=".pdf,.pptx,.txt" 
-                />
-                {uploading ? "⏳" : "📎"}
-              </label>
+              {/* FILE UPLOAD BUTTON */}
+              <label style={{
+                background: "#1e2a3a", borderRadius: 12, width: 44, height: 44, 
+                display: "flex", alignItems: "center", justifyContent: "center",
+                cursor: uploading ? "not-allowed" : "pointer", opacity: uploading ? 0.5 : 1
+              }}>
+                <input 
+                  type="file" 
+                  onChange={handleFileUpload} 
+                  style={{ display: "none" }} 
+                  disabled={uploading} 
+                  accept=".pdf,.pptx,.txt" 
+                />
+                {uploading ? "⏳" : "📎"}
+              </label>
 
-              <input 
-                value={chatInput}
-                onChange={(e) => setChatInput(e.target.value)}
-                onKeyDown={(e) => {
-                  if(e.key === 'Enter' && !isChatLoading) {
-                    askParadigm(chatInput);
-                  }
-                }} 
-                placeholder="Ask your CI..." 
-                disabled={isChatLoading}
-                style={{ ...inputBase, margin: 0, flex: 1, opacity: isChatLoading ? 0.5 : 1 }} 
-              />
-            </div>
+              <input 
+                value={chatInput}
+                onChange={(e) => setChatInput(e.target.value)}
+                onKeyDown={(e) => {
+                  if(e.key === 'Enter' && !isChatLoading) {
+                    askParadigm(chatInput);
+                  }
+                }} 
+                placeholder="Ask your CI..." 
+                disabled={isChatLoading}
+                style={{ ...inputBase, margin: 0, flex: 1, opacity: isChatLoading ? 0.5 : 1 }} 
+              />
+            </div>
           </div>
         )}
       </div>
