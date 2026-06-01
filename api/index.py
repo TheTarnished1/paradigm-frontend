@@ -23,7 +23,7 @@ api_key = os.environ.get("GROQ_API_KEY")
 if not api_key:
     raise ValueError("GROQ_API_KEY is missing!")
 
-synapse = ChatGroq(temperature=0.7, model_name="llama3-8b-8192", api_key=api_key)
+synapse = ChatGroq(temperature=0.7, model_name="mixtral-8x7b-32768", api_key=api_key)
 
 @app.post("/api/chat")
 async def chat_with_paradigm(req: ChatRequest):
