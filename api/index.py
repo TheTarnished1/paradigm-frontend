@@ -4,6 +4,7 @@ from typing import List, Optional
 import os
 import io
 import PyPDF2
+import json
 from langchain_groq import ChatGroq
 from langchain_core.messages import SystemMessage, HumanMessage, AIMessage
 
@@ -44,22 +45,31 @@ If Xavier asks to add, create, or remove a course, module, or topic, you MUST po
         
         messages = [SystemMessage(content=system_prompt)]
         
+        # Debug: Log incoming request
+        print(f"DEBUG: Received message: {req.message}")
+        print(f"DEBUG: History length: {len(req.history)}")
+        print(f"DEBUG: Context: {req.context}")
+        
         for msg in req.history:
             if msg.role == "user":
                 messages.append(HumanMessage(content=msg.text))
             elif msg.role == "ai":
                 messages.append(AIMessage(content=msg.text))
         
-        current_message = f"Context: {req.context}\n\nUser: {req.message}" if req.context else req.message
+        current_message = req.message if not req.context else f"Context: {req.context}\n\nUser: {req.message}"
         messages.append(HumanMessage(content=current_message))
+        
+        print(f"DEBUG: Total messages being sent to Groq: {len(messages)}")
         
         response = synapse.invoke(messages)
         
         return {"reply": response.content, "action": None}
     
     except Exception as e:
-        print(f"ERROR in /api/chat: {str(e)}")
-        return {"error": str(e), "reply": "I'm having trouble connecting to my brain right now."}
+        error_msg = str(e)
+        print(f"ERROR in /api/chat: {error_msg}")
+        print(f"ERROR Type: {type(e).__name__}")
+        return {"error": error_msg, "reply": "I'm having trouble connecting to my brain right now."}
 
 @app.post("/api/upload")
 async def upload_file(file: UploadFile = File(...)):
