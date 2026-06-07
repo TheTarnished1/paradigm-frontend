@@ -447,11 +447,10 @@ function getCards(topic) {
   ];
 }
 
-const RENDER_URL = "https://paradigm-2uvo.onrender.com";
-
 async function ask(system, user) {
   try {
-    const res = await fetch(`${RENDER_URL}/api/chat`, {
+    // This relative path tells Vercel: "Talk to my own api/index.py file"
+    const res = await fetch("/api/chat", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -460,6 +459,7 @@ async function ask(system, user) {
         context: ""
       })
     });
+    // ... the rest of your try block remains the same
     const d = await res.json();
     return d.reply || "Error. Try again.";
   } catch (err) {
