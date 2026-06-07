@@ -1,14 +1,23 @@
 from fastapi import FastAPI, UploadFile, File
+from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from typing import List, Optional
 import os
 import io
 import PyPDF2
-import json
 from langchain_groq import ChatGroq
 from langchain_core.messages import SystemMessage, HumanMessage, AIMessage
 
 app = FastAPI()
+
+# ── CORS — allows Vercel frontend to call this Render backend ──
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 class ChatMessage(BaseModel):
     role: str
@@ -16,7 +25,7 @@ class ChatMessage(BaseModel):
 
 class ChatRequest(BaseModel):
     message: str
-    history: List[ChatMessage]
+    history: List[ChatMessage] = []
     context: str = ""
 
 api_key = os.environ.get("GROQ_API_KEY")
@@ -28,10 +37,15 @@ synapse = ChatGroq(temperature=0.7, model_name="llama-3.3-70b-versatile", api_ke
 @app.post("/api/chat")
 async def chat_with_paradigm(req: ChatRequest):
     try:
-        # Build conversation history for context
+        print(f"DEBUG: Received message: {req.message}")
+        print(f"DEBUG: History length: {len(req.history)}")
+        print(f"DEBUG: Context: {req.context}")
+
         conversation_history = ""
         for msg in req.history[-5:]:
             conversation_history += f"{msg.role.upper()}: {msg.text}\n"
+
+        print(f"DEBUG: Total messages being sent to Groq: {len(req.history) + 2}")
 
         system_prompt = f"""You are Paradigm, Xavier's study assistant.
 
@@ -61,7 +75,7 @@ CONTEXT AWARENESS:
 - Don't repeat explanations unnecessarily
 - Connect ideas across topics when relevant
 - Know his interests (gaming, anime, art, denim, IEMs, streetwear, soulslike) and use them for analogies
-- Consider his ADHD—be concise but thorough, break things into digestible chunks
+- Consider his ADHD — be concise but thorough, break things into digestible chunks
 - If he mentions a course (PHY 102, MTH 102, etc.), tailor explanations to that level
 
 SPECIAL INSTRUCTIONS:
@@ -82,9 +96,7 @@ CONVERSATION CONTEXT:
 STUDY CONTEXT:
 {req.context}
 
-USER MESSAGE: {req.message}
-
-Respond naturally. Understand what he needs and deliver it his way:
+Respond naturally. Understand what he needs and deliver it his way.
 """
 
         messages = [SystemMessage(content=system_prompt)]
