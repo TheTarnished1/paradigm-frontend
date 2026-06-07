@@ -545,32 +545,48 @@ export default function App() {
     setFeedback(fb); setQuizStage("done");
   };
 
-  // ── Paradigm CI: send message with history + course context ──
+    // ── Paradigm CI: send message with history + course context ──
   const askParadigm = async (userMessage) => {
     if (!userMessage.trim()) return;
+    
     const context = `Current Course: ${course.name} (${course.sub}). Current Topic: ${topic.title}. Key formulas: ${topic.formulas.join("; ")}.`;
+    
+    // We create the new history array FIRST so we can send it directly to the backend
     const newHistory = [...chatHistory, { role: "user", text: userMessage }];
+    
+    // Update the screen instantly
     setChatHistory(newHistory);
     setParadigmLoading(true);
+    
     try {
-      const res = await fetch(`${RENDER_URL}/api/chat`, {
+      // Clean, relative Vercel path
+      const res = await fetch("/api/chat", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           message: userMessage,
-          subject: course.sub,
-          history: chatHistory,
+          history: newHistory, // <--- Passes the exact conversation memory
           context: context,
         })
       });
+      
+      if (!res.ok) throw new Error(`Server returned ${res.status}`);
+      
       const data = await res.json();
-      const reply = data.reply || "Error. Try again.";
+      const reply = data.reply || data.error || "No words came back.";
+      
+      // Add Paradigm's response to the screen
       setChatHistory([...newHistory, { role: "ai", text: reply }]);
-    } catch {
-      setChatHistory([...newHistory, { role: "ai", text: "Network error. Is Render running?" }]);
+      
+    } catch (err) {
+      console.error("The REAL error is:", err);
+      // The ghost is dead. This prints the actual network error.
+      setChatHistory([...newHistory, { role: "ai", text: `Connection failed: ${err.message}` }]);
     }
+    
     setParadigmLoading(false);
   };
+
 
   const inputBase = {
     width: "100%", padding: 14, background: "#0d1117",
