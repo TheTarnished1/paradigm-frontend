@@ -447,20 +447,22 @@ function getCards(topic) {
   ];
 }
 
-const RENDER_URL = "https://paradigm-q55h.onrender.com";
-
 async function ask(system, user) {
   try {
-    const res = await fetch(`${RENDER_URL}/api/chat`, {
+    const res = await fetch(`/api/chat`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ message: `${system}\n\nUSER PROMPT: ${user}` })
+      body: JSON.stringify({
+        message: `${system}\n\nUSER PROMPT: ${user}`,
+        history: [],
+        context: ""
+      })
     });
     const d = await res.json();
     return d.reply || "Error. Try again.";
   } catch (err) {
     console.error(err);
-    return "Network error. Check your Render backend is running.";
+    return "Network error. Check your backend.";
   }
 }
 
@@ -477,7 +479,6 @@ export default function App() {
   const [feedback, setFeedback] = useState("");
   const [quizStage, setQuizStage] = useState("idle");
 
-  // ── Paradigm CI state ──
   const [chatHistory, setChatHistory] = useState([]);
   const [isChatOpen, setIsChatOpen] = useState(false);
   const [paradigmInput, setParadigmInput] = useState("");
@@ -534,20 +535,18 @@ export default function App() {
     setFeedback(fb); setQuizStage("done");
   };
 
-  // ── Paradigm CI: send message with history + course context ──
   const askParadigm = async (userMessage) => {
     if (!userMessage.trim()) return;
-    const context = `Current Course: ${course.name} (${course.sub}). Current Topic: ${topic.title}. Key formulas: ${topic.formulas.join("; ")}.`;
+    const context = `Current Course: ${course.name} (${course.sub}). Topic: ${topic.title}. Key formulas: ${topic.formulas.join("; ")}.`;
     const newHistory = [...chatHistory, { role: "user", text: userMessage }];
     setChatHistory(newHistory);
     setParadigmLoading(true);
     try {
-      const res = await fetch(`${RENDER_URL}/api/chat`, {
+      const res = await fetch(`/api/chat`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           message: userMessage,
-          subject: course.sub,
           history: chatHistory,
           context: context,
         })
@@ -556,7 +555,7 @@ export default function App() {
       const reply = data.reply || "Error. Try again.";
       setChatHistory([...newHistory, { role: "ai", text: reply }]);
     } catch {
-      setChatHistory([...newHistory, { role: "ai", text: "Network error. Is Render running?" }]);
+      setChatHistory([...newHistory, { role: "ai", text: "Network error." }]);
     }
     setParadigmLoading(false);
   };
@@ -578,7 +577,6 @@ export default function App() {
   return (
     <div style={{ background: "#07090f", minHeight: "100vh", color: "#e2e8f0", fontFamily: "'Segoe UI', system-ui, sans-serif", maxWidth: 520, margin: "0 auto" }}>
 
-      {/* STICKY HEADER */}
       <div style={{ position: "sticky", top: 0, zIndex: 20, background: "#0a0d14", borderBottom: "1px solid #151e30" }}>
         <div style={{ display: "flex", alignItems: "center", gap: 4, padding: "10px 14px 0", overflowX: "auto" }}>
           {COURSES.map((c, i) => (
@@ -630,7 +628,6 @@ export default function App() {
 
       <div style={{ padding: 14 }}>
 
-        {/* LEARN MODE */}
         {mode === "learn" && (
           <div>
             <div style={{ display: "flex", gap: 3, marginBottom: 14 }}>
@@ -732,7 +729,6 @@ export default function App() {
           </div>
         )}
 
-        {/* QUIZ MODE */}
         {mode === "quiz" && (
           <div>
             <div style={{ background: "#0d1117", borderRadius: 12, padding: 14, marginBottom: 16, border: "1px solid #1e2a3a" }}>
@@ -811,7 +807,6 @@ export default function App() {
           </div>
         )}
 
-        {/* TOPICS MODE */}
         {mode === "topics" && (
           <div>
             {reviewCount > 0 && (
@@ -878,7 +873,7 @@ export default function App() {
         <div style={{ height: 80 }} />
       </div>
 
-      {/* ── PARADIGM CI FLOATING ORB ── */}
+      {/* PARADIGM CI FLOATING ORB */}
       <div style={{ position: "fixed", bottom: 20, right: 20, zIndex: 100 }}>
         {!isChatOpen ? (
           <button
@@ -898,7 +893,6 @@ export default function App() {
             border: "1px solid #1e2a3a", display: "flex", flexDirection: "column",
             boxShadow: "0 10px 40px #000a",
           }}>
-            {/* Header */}
             <div style={{
               padding: "12px 16px", borderBottom: "1px solid #1e2a3a",
               display: "flex", justifyContent: "space-between", alignItems: "center",
@@ -914,7 +908,6 @@ export default function App() {
               >✕</button>
             </div>
 
-            {/* Messages */}
             <div style={{ flex: 1, overflowY: "auto", padding: "10px 12px", display: "flex", flexDirection: "column", gap: 8 }}>
               {chatHistory.length === 0 && (
                 <div style={{ fontSize: 12, color: "#3a4f70", textAlign: "center", marginTop: 20, lineHeight: 1.7 }}>
@@ -923,10 +916,7 @@ export default function App() {
                 </div>
               )}
               {chatHistory.map((msg, i) => (
-                <div key={i} style={{
-                  alignSelf: msg.role === "user" ? "flex-end" : "flex-start",
-                  maxWidth: "85%",
-                }}>
+                <div key={i} style={{ alignSelf: msg.role === "user" ? "flex-end" : "flex-start", maxWidth: "85%" }}>
                   <div style={{
                     padding: "8px 12px", borderRadius: msg.role === "user" ? "14px 14px 4px 14px" : "14px 14px 14px 4px",
                     background: msg.role === "user" ? "#38bdf8" : "#1e2a3a",
@@ -946,7 +936,6 @@ export default function App() {
               )}
             </div>
 
-            {/* Input */}
             <div style={{ padding: "10px 12px", borderTop: "1px solid #1e2a3a", display: "flex", gap: 8 }}>
               <input
                 value={paradigmInput}
@@ -957,7 +946,7 @@ export default function App() {
                     setParadigmInput("");
                   }
                 }}
-                placeholder="Ask Paradigm..."
+                placeholder="Ask your CI..."
                 style={{
                   flex: 1, padding: "9px 12px", background: "#111827",
                   border: "1px solid #1e2a3a", borderRadius: 10,
