@@ -33,7 +33,7 @@ async def chat_with_paradigm(req: ChatRequest):
         print(f"DEBUG: Context: {req.context}")
 
         conversation_history = ""
-        for msg in req.history[-5:]:
+        for msg in req.history[-6:]:
             conversation_history += f"{msg.role.upper()}: {msg.text}\n"
 
         print(f"DEBUG: Total messages being sent to Groq: {len(req.history) + 2}")
@@ -92,7 +92,7 @@ Respond naturally. Understand what he needs and deliver it his way.
 
         messages = [SystemMessage(content=system_prompt)]
 
-        for msg in req.history:
+        for msg in req.history[-6]:
             if msg.role == "user":
                 messages.append(HumanMessage(content=msg.text))
             elif msg.role == "ai":
