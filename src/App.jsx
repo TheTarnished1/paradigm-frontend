@@ -447,7 +447,7 @@ function getCards(topic) {
   ];
 }
 
-const RENDER_URL = "https://paradigm-q55h.onrender.com";
+const RENDER_URL = "https://paradigm-2uvo.onrender.com";
 
 async function ask(system, user) {
   try {
