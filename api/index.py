@@ -10,15 +10,6 @@ from langchain_core.messages import SystemMessage, HumanMessage, AIMessage
 
 app = FastAPI()
 
-# ── CORS — allows Vercel frontend to call this Render backend ──
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["*"],
-    allow_credentials=False,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
-
 class ChatMessage(BaseModel):
     role: str
     text: str
