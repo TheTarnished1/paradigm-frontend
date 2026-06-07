@@ -447,24 +447,31 @@ function getCards(topic) {
   ];
 }
 
-async function ask(system, user) {
+async function ask(system, user, currentHistory = []) { 
   try {
-    // This relative path tells Vercel: "Talk to my own api/index.py file"
     const res = await fetch("/api/chat", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         message: `${system}\n\nUSER PROMPT: ${user}`,
-        history: [],
+        history: currentHistory, 
         context: ""
       })
     });
-    // ... the rest of your try block remains the same
+
+    if (!res.ok) {
+      throw new Error(`Server returned ${res.status}`);
+    }
+
     const d = await res.json();
-    return d.reply || "Error. Try again.";
+    
+    // We return the text here so your UI can catch it and display it
+    return d.reply || d.error || "No words came back.";
+    
   } catch (err) {
-    console.error(err);
-    return "Network error. Check your Render backend is running.";
+    console.error("The REAL error is:", err);
+    // This kills the Render ghost and shows the actual network error
+    return `Connection failed: ${err.message}`;
   }
 }
 
