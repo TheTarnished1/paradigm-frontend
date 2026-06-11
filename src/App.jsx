@@ -248,103 +248,247 @@ const COURSES = [
     ]
   },
   {
-    id: "mth103", name: "MTH 103", sub: "Coordinate Geometry", color: "#e879f9",
-    topics: [
-      {
-        title: "Distance, Midpoint & Division of a Line Segment",
-        concept: "The foundation of coordinate geometry. Distance uses Pythagoras — always take the positive root. Midpoint is just averaging both coordinates separately. Division of a segment finds a point splitting it in ratio m:n — midpoint is the special case m=n=1.",
-        formulas: ["d = √[(x₂−x₁)² + (y₂−y₁)²]","Midpoint M = ((x₁+x₂)/2, (y₁+y₂)/2)","Section formula (ratio m:n from A): P = ((mx₂+nx₁)/(m+n), (my₂+ny₁)/(m+n))"],
-        tips: ["Distance is always POSITIVE.","Midpoint: add the two x values and halve them, same for y.","For section formula: the point divides AB in ratio m:n FROM A."],
-        eg: { q: "P(−3,−1) and Q(2,4). (a) PQ; (b) midpoint; (c) point dividing PQ in ratio 2:3 from P.", a: "(a) PQ = √[5²+5²] = 5√2 ≈ 7.07\n(b) M = (−½, 3/2)\n(c) x=(4−9)/5=−1, y=(8−3)/5=1 → Point=(−1,1)" }
-      },
-      {
-        title: "Gradient (Slope) of a Straight Line",
-        concept: "The gradient m measures steepness — how much y changes per 1 unit increase in x. Positive m = rising; negative m = falling. Parallel lines have EQUAL slopes. Perpendicular lines: flip the slope and reverse the sign (negative reciprocal).",
-        formulas: ["m = (y₂−y₁)/(x₂−x₁) = tanθ","Horizontal: m=0; Vertical: m=undefined","Parallel: m₁=m₂","Perpendicular: m₁×m₂=−1","Angle between lines: tanθ = |m₁−m₂| / (1+m₁m₂)"],
-        tips: ["Perpendicular slopes: flip and negate. e.g. m=2 → perp m=−½.","Zero slope = horizontal line. Undefined slope = vertical line.","Always take the acute angle (positive tan) for angle between lines."],
-        eg: { q: "Lines: y+3x=2 and 2y+x−4=0. (a) slopes; (b) angle; (c) perpendicular?", a: "(a) m₁=−3, m₂=−½\n(b) tanθ=|−5/2|/(5/2)=1 → θ=45°\n(c) m₁×m₂=(−3)(−½)=3/2≠−1 → NOT perpendicular" }
-      },
-      {
-        title: "Equations of a Straight Line",
-        concept: "Four equivalent forms — use whichever is most convenient. Use slope-intercept when you know slope and y-intercept; use point-slope when you have slope and one point; use intercept form when you know both intercepts.",
-        formulas: ["Slope-intercept: y = mx + c","Point-slope: y − y₁ = m(x − x₁)","Two-point: (y−y₁)/(y₂−y₁) = (x−x₁)/(x₂−x₁)","Intercept form: x/a + y/b = 1","General: ax + by + c = 0"],
-        tips: ["To find slope from ax+by+c=0: rearrange to y=mx+c → slope is −a/b.","Line through origin: c=0, so y=mx only.","Convert any form to general by clearing fractions and moving all terms left."],
-        eg: { q: "(a) Through (−3,4), slope 5; (b) through (−1,2) and (3,1); (c) x-intercept 4, y-intercept −3.", a: "(a) y=5x+19\n(b) m=−1/4 → x+4y−7=0\n(c) x/4+y/(−3)=1 → 3x−4y=12" }
-      },
-      {
-        title: "Parallel, Perpendicular Lines & Distance from Point to Line",
-        concept: "Once you have the slope, you can write any parallel or perpendicular line through any point. The perpendicular distance formula gives the shortest right-angle distance from a point to a line — always put the line in ax+by+c=0 form first.",
-        formulas: ["Parallel through (x₁,y₁): y−y₁=m(x−x₁)  (same slope)","Perpendicular through (x₁,y₁): y−y₁=(−1/m)(x−x₁)","Point to line: d = |ax₀+by₀+c| / √(a²+b²)","Between parallel lines: d = |c₁−c₂| / √(a²+b²)"],
-        tips: ["Parallel: SAME slope, new point.","Perpendicular: NEGATIVE RECIPROCAL slope, new point.","Distance formula: plug point into ax+by+c, absolute value, divide by √(a²+b²)."],
-        eg: { q: "L: 3y−2x+3=0, P(4,−1). (a) parallel through P; (b) perpendicular through P; (c) distance.", a: "Slope m=2/3\n(a) 2x−3y−11=0\n(b) 3x+2y−10=0\n(c) d = |8+3−3|/√13 = 8/√13 ≈ 2.22 units" }
-      },
-      {
-        title: "The Circle: Equation & Properties",
-        concept: "A circle is the set of all points at a fixed distance (radius) from a fixed point (centre). The general form hides the centre and radius — complete the square for both x and y to reveal them. Test any point by comparing its distance to the centre vs the radius.",
-        formulas: ["Standard: (x−h)²+(y−k)²=r²  (centre (h,k))","General: x²+y²+2gx+2fy+c=0","Centre: (−g, −f)","Radius: r=√(g²+f²−c)","Real circle condition: g²+f²−c > 0"],
-        tips: ["Complete the square for BOTH x and y to go from general to standard form.","In general form: centre is (−g,−f) — take coefficients of x and y, halve, flip sign.","Circle through origin: constant term c=0."],
-        eg: { q: "Find centre and radius: x²+y²−6x+4y−12=0. Is (1,2) inside, on, or outside?", a: "(x−3)²+(y+2)²=25 → Centre (3,−2), r=5\n\nd = √[(1−3)²+(2+2)²] = √20 ≈ 4.47\n4.47 < 5 → INSIDE" }
-      },
-      {
-        title: "Tangent & Normal to a Circle",
-        concept: "The tangent at a point on a circle is perpendicular to the radius at that point. This one relationship gives you everything: find the slope of the radius, take the negative reciprocal for the tangent slope. The normal simply follows the radius line through the centre.",
-        formulas: ["Slope of radius to (x₁,y₁): m_r=(y₁−k)/(x₁−h)","Tangent slope: m_t=−1/m_r","Normal: through (x₁,y₁) and centre (−g,−f)","Length of tangent from P(x₀,y₀): L=√(x₀²+y₀²+2gx₀+2fy₀+c)"],
-        tips: ["Tangent is always perpendicular to radius — start here every time.","Normal passes through the CENTRE of the circle.","Length of tangent: substitute external point into LHS of general equation, take square root."],
-        eg: { q: "Circle (x−2)²+(y+3)²=16. Find tangent and normal at (6,−3).", a: "Centre (2,−3), r=4\nSlope of radius = (−3+3)/(6−2) = 0 (horizontal)\nTangent is VERTICAL: x=6\nNormal is HORIZONTAL: y=−3" }
-      },
-      {
-        title: "Circular Measure: Radians, Arc & Sector",
-        concept: "Radian measure directly connects arc length to radius — 1 radian is the angle subtended when arc length = radius. The formulas for arc, area, and chord all become simple with radians. ALWAYS check whether θ is in degrees or radians before applying any formula.",
-        formulas: ["π rad = 180°  →  °→rad: ×π/180; rad→°: ×180/π","Arc length: l = rθ  (θ in radians)","Sector area: A = ½r²θ","Chord length: c = 2r sin(θ/2)","Segment area = ½r²(θ − sinθ)"],
-        tips: ["l=rθ requires RADIANS — convert degrees first.","Segment = sector MINUS triangle (not minus chord).","Triangle area in sector: ½r²sinθ  (SAS formula)."],
-        eg: { q: "r=8cm, θ=150°. Find (a) arc; (b) sector area; (c) chord; (d) segment.", a: "θ=5π/6 rad\n(a) 8×5π/6 = 20π/3 ≈ 20.9cm\n(b) ½×64×5π/6 ≈ 83.8cm²\n(c) 2×8×sin75° ≈ 15.5cm\n(d) 83.8−16 = 67.8cm²" }
-      },
-      {
-        title: "Trigonometric Ratios & Identities",
-        concept: "Trig ratios are defined from right-angled triangles and extend to all angles via the unit circle. The Pythagorean identities connect sin, cos, and tan. CAST tells you which are positive in each quadrant — memorise this cold.",
-        formulas: ["sinθ=Opp/Hyp; cosθ=Adj/Hyp; tanθ=Opp/Adj","sin²θ+cos²θ=1;  tan²θ+1=sec²θ;  1+cot²θ=csc²θ","CAST: Q1 all +; Q2 sin+; Q3 tan+; Q4 cos+","sin(180°−θ)=sinθ;  cos(180°−θ)=−cosθ","Area of triangle: A=½bc sinA"],
-        tips: ["SOHCAHTOA: Sin=Opp/Hyp; Cos=Adj/Hyp; Tan=Opp/Adj.","CAST mnemonic: All Students Take Calculus (Q1→Q4 anticlockwise).","sin²θ+cos²θ=1 is used CONSTANTLY — must be memorised cold."],
-        eg: { q: "Verify sin²θ−cos²θ=2sin²θ−1. Find sinθ if cosθ=−½ and θ in Q3.", a: "sin²θ−cos²θ = sin²θ−(1−sin²θ) = 2sin²θ−1 ✓\n\nsin²θ=1−¼=¾ → sinθ=±√3/2\nQ3: sinθ=−√3/2 ≈ −0.866" }
-      },
-      {
-        title: "Sine Rule, Cosine Rule & Area",
-        concept: "For ANY triangle: Sine Rule connects angles to opposite sides; Cosine Rule connects all three sides and one angle. Use Sine Rule when you have a side-angle PAIR. Use Cosine Rule for SAS (two sides + included angle) or SSS (all three sides).",
-        formulas: ["Sine Rule: a/sinA = b/sinB = c/sinC","Cosine Rule: a²=b²+c²−2bc cosA","Finding angle: cosA=(b²+c²−a²)/(2bc)","Area=½ab sinC","Heron's: A=√[s(s−a)(s−b)(s−c)], s=(a+b+c)/2"],
-        tips: ["Sine Rule: angle goes with its OPPOSITE side.","Cosine Rule: the angle is BETWEEN the two given sides.","Ambiguous case (SSA): check if sinB gives two valid angles."],
-        eg: { q: "Triangle a=7, b=5, c=6. Find angle A and area.", a: "cosA = (25+36−49)/60 = 12/60 = 0.2\nA ≈ 78.46°\nArea = ½×5×6×sin(78.46°) ≈ 14.7 sq units\nHeron's check: √[9×2×4×3]=√216≈14.7 ✓" }
-      },
-      {
-        title: "Polygons & Solid Shapes",
-        concept: "Interior angle sum of any n-sided polygon is (n−2)×180°, and exterior angles always add to 360°. For 3D shapes: volume is how much space is inside, surface area is the total area of all faces. Always find slant height l=√(h²+r²) before computing cone surface area.",
-        formulas: ["Interior sum: (n−2)×180°","Each interior (regular): (n−2)×180°/n","Each exterior (regular): 360°/n","Cylinder: V=πr²h; SA=2πr(r+h)","Cone: V=⅓πr²h; SA=πr(l+r); l=√(h²+r²)","Sphere: V=(4/3)πr³; SA=4πr²"],
-        tips: ["n=360°/exterior angle — work backwards from the exterior.","Hemisphere total SA=3πr² (includes flat base).","Cone: always find l BEFORE finding SA."],
-        eg: { q: "Regular polygon, interior angle=150°. Find exterior, n, and interior sum. Also cone r=12cm, h=5cm: find l, curved SA, total SA, V.", a: "Exterior=30°, n=12, Sum=1800°\n\nCone: l=√(25+144)=13cm\nCurved SA=156π≈490cm²\nTotal SA=300π≈943cm²\nV=240π≈754cm³" }
-      },
-      {
-        title: "Conic Sections: Parabola, Ellipse & Hyperbola",
-        concept: "A conic section is a curve formed when a plane cuts a right circular cone. The three types are Parabola (e=1), Ellipse (0<e<1), and Hyperbola (e>1). Eccentricity e = distance from focus ÷ distance from directrix — it tells you which conic you have before you do any work.",
-        formulas: [
-          "PARABOLA — y² = 4ax: Vertex (0,0), Focus (a,0), Directrix x=−a, Latus Rectum = 4a",
-          "Parabola Tangent at (x₁,y₁): yy₁ = 2a(x + x₁)",
-          "Parabola Normal at (x₁,y₁): y − y₁ = −(y₁/2a)(x − x₁)",
-          "ELLIPSE — x²/a² + y²/b² = 1  (a>b): c²=a²−b², Foci (±c,0), e=c/a, Major=2a, Minor=2b, LR=2b²/a, Area=πab",
-          "Ellipse Tangent at (x₁,y₁): xx₁/a² + yy₁/b² = 1",
-          "Ellipse Normal at (x₁,y₁): y − y₁ = (a²y₁/b²x₁)(x − x₁)",
-          "HYPERBOLA — x²/a² − y²/b² = 1: c²=a²+b², Foci (±c,0), e=c/a, Transverse=2a, Conjugate=2b, LR=2b²/a, Asymptotes y=±(b/a)x",
-          "Hyperbola Tangent at (x₁,y₁): xx₁/a² − yy₁/b² = 1",
-          "Hyperbola Normal at (x₁,y₁): y − y₁ = −(a²y₁/b²x₁)(x − x₁)"
-        ],
-        tips: [
-          "KEY DIFFERENCE: Ellipse uses c²=a²−b² (subtraction); Hyperbola uses c²=a²+b² (addition). Mix these up and everything is wrong.",
-          "Eccentricity check: e=0 circle, 0<e<1 ellipse, e=1 parabola, e>1 hyperbola.",
-          "For parabola tangent/normal: find 'a' first by comparing to y²=4ax, then substitute (x₁,y₁).",
-          "Parabola and hyperbola are OPEN curves — no finite area or perimeter.",
-          "Ellipse area = πab. Don't confuse a and b — a is always the LARGER value (semi-major axis)."
-        ],
-        eg: { q: "For y²=16x: find vertex, focus, directrix, LR. For x²/25+y²/9=1: find foci, e, axes, area. For x²/16−y²/9=1: find foci, e, axes, LR, asymptotes.", a: "PARABOLA y²=16x: 4a=16 → a=4\nVertex (0,0), Focus (4,0), Directrix x=−4, LR=16\n\nELLIPSE x²/25+y²/9=1: a=5, b=3\nc²=25−9=16 → c=4\nFoci (±4,0), e=4/5, Major=10, Minor=6, Area=15π\n\nHYPERBOLA x²/16−y²/9=1: a=4, b=3\nc²=16+9=25 → c=5\nFoci (±5,0), e=5/4, Transverse=8, Conjugate=6\nLR=2×9/4=9/2, Asymptotes y=±(3/4)x" }
-      },
-    ]
-  },
+  id: "mth103", name: "MTH 103", sub: "Geometry & Vector Analysis", color: "#e879f9",
+  topics: [
+    {
+      title: "Distance, Midpoint & Division of a Line Segment",
+      concept: "The foundation of coordinate geometry. Distance uses Pythagoras — always take the positive root. Midpoint is just averaging both coordinates separately. Division of a segment finds a point splitting it in ratio m:n — midpoint is the special case m=n=1.",
+      formulas: ["d = √[(x₂−x₁)² + (y₂−y₁)²]","Midpoint M = ((x₁+x₂)/2, (y₁+y₂)/2)","Section formula (ratio m:n from A): P = ((mx₂+nx₁)/(m+n), (my₂+ny₁)/(m+n))"],
+      tips: ["Distance is always POSITIVE.","Midpoint: add the two x values and halve them, same for y.","For section formula: the point divides AB in ratio m:n FROM A."],
+      eg: { q: "P(−3,−1) and Q(2,4). (a) PQ; (b) midpoint; (c) point dividing PQ in ratio 2:3 from P.", a: "(a) PQ = √[5²+5²] = 5√2 ≈ 7.07\n(b) M = (−½, 3/2)\n(c) x=(4−9)/5=−1, y=(8−3)/5=1 → Point=(−1,1)" }
+    },
+    {
+      title: "Gradient (Slope) of a Straight Line",
+      concept: "The gradient m measures steepness — how much y changes per 1 unit increase in x. Positive m = rising; negative m = falling. Parallel lines have EQUAL slopes. Perpendicular lines: flip the slope and reverse the sign (negative reciprocal).",
+      formulas: ["m = (y₂−y₁)/(x₂−x₁) = tanθ","Horizontal: m=0; Vertical: m=undefined","Parallel: m₁=m₂","Perpendicular: m₁×m₂=−1","Angle between lines: tanθ = |m₁−m₂| / (1+m₁m₂)"],
+      tips: ["Perpendicular slopes: flip and negate. e.g. m=2 → perp m=−½.","Zero slope = horizontal line. Undefined slope = vertical line.","Always take the acute angle (positive tan) for angle between lines."],
+      eg: { q: "Lines: y+3x=2 and 2y+x−4=0. (a) slopes; (b) angle; (c) perpendicular?", a: "(a) m₁=−3, m₂=−½\n(b) tanθ=|−5/2|/(5/2)=1 → θ=45°\n(c) m₁×m₂=(−3)(−½)=3/2≠−1 → NOT perpendicular" }
+    },
+    {
+      title: "Equations of a Straight Line",
+      concept: "Four equivalent forms — use whichever is most convenient. Use slope-intercept when you know slope and y-intercept; use point-slope when you have slope and one point; use intercept form when you know both intercepts.",
+      formulas: ["Slope-intercept: y = mx + c","Point-slope: y − y₁ = m(x − x₁)","Two-point: (y−y₁)/(y₂−y₁) = (x−x₁)/(x₂−x₁)","Intercept form: x/a + y/b = 1","General: ax + by + c = 0"],
+      tips: ["To find slope from ax+by+c=0: rearrange to y=mx+c → slope is −a/b.","Line through origin: c=0, so y=mx only.","Convert any form to general by clearing fractions and moving all terms left."],
+      eg: { q: "(a) Through (−3,4), slope 5; (b) through (−1,2) and (3,1); (c) x-intercept 4, y-intercept −3.", a: "(a) y=5x+19\n(b) m=−1/4 → x+4y−7=0\n(c) x/4+y/(−3)=1 → 3x−4y=12" }
+    },
+    {
+      title: "Parallel, Perpendicular Lines & Distance from Point to Line",
+      concept: "Once you have the slope, you can write any parallel or perpendicular line through any point. The perpendicular distance formula gives the shortest right-angle distance from a point to a line — always put the line in ax+by+c=0 form first.",
+      formulas: ["Parallel through (x₁,y₁): y−y₁=m(x−x₁)  (same slope)","Perpendicular through (x₁,y₁): y−y₁=(−1/m)(x−x₁)","Point to line: d = |ax₀+by₀+c| / √(a²+b²)","Between parallel lines: d = |c₁−c₂| / √(a²+b²)"],
+      tips: ["Parallel: SAME slope, new point.","Perpendicular: NEGATIVE RECIPROCAL slope, new point.","Distance formula: plug point into ax+by+c, absolute value, divide by √(a²+b²)."],
+      eg: { q: "L: 3y−2x+3=0, P(4,−1). (a) parallel through P; (b) perpendicular through P; (c) distance.", a: "Slope m=2/3\n(a) 2x−3y−11=0\n(b) 3x+2y−10=0\n(c) d = |8+3−3|/√13 = 8/√13 ≈ 2.22 units" }
+    },
+    {
+      title: "The Circle: Equation & Properties",
+      concept: "A circle is the set of all points at a fixed distance (radius) from a fixed point (centre). The general form hides the centre and radius — complete the square for both x and y to reveal them. Test any point by comparing its distance to the centre vs the radius.",
+      formulas: ["Standard: (x−h)²+(y−k)²=r²  (centre (h,k))","General: x²+y²+2gx+2fy+c=0","Centre: (−g, −f)","Radius: r=√(g²+f²−c)","Real circle condition: g²+f²−c > 0"],
+      tips: ["Complete the square for BOTH x and y to go from general to standard form.","In general form: centre is (−g,−f) — take coefficients of x and y, halve, flip sign.","Circle through origin: constant term c=0."],
+      eg: { q: "Find centre and radius: x²+y²−6x+4y−12=0. Is (1,2) inside, on, or outside?", a: "(x−3)²+(y+2)²=25 → Centre (3,−2), r=5\n\nd = √[(1−3)²+(2+2)²] = √20 ≈ 4.47\n4.47 < 5 → INSIDE" }
+    },
+    {
+      title: "Tangent & Normal to a Circle",
+      concept: "The tangent at a point on a circle is perpendicular to the radius at that point. This one relationship gives you everything: find the slope of the radius, take the negative reciprocal for the tangent slope. The normal simply follows the radius line through the centre.",
+      formulas: ["Slope of radius to (x₁,y₁): m_r=(y₁−k)/(x₁−h)","Tangent slope: m_t=−1/m_r","Normal: through (x₁,y₁) and centre (−g,−f)","Length of tangent from P(x₀,y₀): L=√(x₀²+y₀²+2gx₀+2fy₀+c)"],
+      tips: ["Tangent is always perpendicular to radius — start here every time.","Normal passes through the CENTRE of the circle.","Length of tangent: substitute external point into LHS of general equation, take square root."],
+      eg: { q: "Circle (x−2)²+(y+3)²=16. Find tangent and normal at (6,−3).", a: "Centre (2,−3), r=4\nSlope of radius = (−3+3)/(6−2) = 0 (horizontal)\nTangent is VERTICAL: x=6\nNormal is HORIZONTAL: y=−3" }
+    },
+    {
+      title: "Circular Measure: Radians, Arc & Sector",
+      concept: "Radian measure directly connects arc length to radius — 1 radian is the angle subtended when arc length = radius. The formulas for arc, area, and chord all become simple with radians. ALWAYS check whether θ is in degrees or radians before applying any formula.",
+      formulas: ["π rad = 180°  →  °→rad: ×π/180; rad→°: ×180/π","Arc length: l = rθ  (θ in radians)","Sector area: A = ½r²θ","Chord length: c = 2r sin(θ/2)","Segment area = ½r²(θ − sinθ)"],
+      tips: ["l=rθ requires RADIANS — convert degrees first.","Segment = sector MINUS triangle (not minus chord).","Triangle area in sector: ½r²sinθ  (SAS formula)."],
+      eg: { q: "r=8cm, θ=150°. Find (a) arc; (b) sector area; (c) chord; (d) segment.", a: "θ=5π/6 rad\n(a) 8×5π/6 = 20π/3 ≈ 20.9cm\n(b) ½×64×5π/6 ≈ 83.8cm²\n(c) 2×8×sin75° ≈ 15.5cm\n(d) 83.8−16 = 67.8cm²" }
+    },
+    {
+      title: "Trigonometric Ratios & Identities",
+      concept: "Trig ratios are defined from right-angled triangles and extend to all angles via the unit circle. The Pythagorean identities connect sin, cos, and tan. CAST tells you which are positive in each quadrant — memorise this cold.",
+      formulas: ["sinθ=Opp/Hyp; cosθ=Adj/Hyp; tanθ=Opp/Adj","sin²θ+cos²θ=1;  tan²θ+1=sec²θ;  1+cot²θ=csc²θ","CAST: Q1 all +; Q2 sin+; Q3 tan+; Q4 cos+","sin(180°−θ)=sinθ;  cos(180°−θ)=−cosθ","Area of triangle: A=½bc sinA"],
+      tips: ["SOHCAHTOA: Sin=Opp/Hyp; Cos=Adj/Hyp; Tan=Opp/Adj.","CAST mnemonic: All Students Take Calculus (Q1→Q4 anticlockwise).","sin²θ+cos²θ=1 is used CONSTANTLY — must be memorised cold."],
+      eg: { q: "Verify sin²θ−cos²θ=2sin²θ−1. Find sinθ if cosθ=−½ and θ in Q3.", a: "sin²θ−cos²θ = sin²θ−(1−sin²θ) = 2sin²θ−1 ✓\n\nsin²θ=1−¼=¾ → sinθ=±√3/2\nQ3: sinθ=−√3/2 ≈ −0.866" }
+    },
+    {
+      title: "Sine Rule, Cosine Rule & Area",
+      concept: "For ANY triangle: Sine Rule connects angles to opposite sides; Cosine Rule connects all three sides and one angle. Use Sine Rule when you have a side-angle PAIR. Use Cosine Rule for SAS (two sides + included angle) or SSS (all three sides).",
+      formulas: ["Sine Rule: a/sinA = b/sinB = c/sinC","Cosine Rule: a²=b²+c²−2bc cosA","Finding angle: cosA=(b²+c²−a²)/(2bc)","Area=½ab sinC","Heron's: A=√[s(s−a)(s−b)(s−c)], s=(a+b+c)/2"],
+      tips: ["Sine Rule: angle goes with its OPPOSITE side.","Cosine Rule: the angle is BETWEEN the two given sides.","Ambiguous case (SSA): check if sinB gives two valid angles."],
+      eg: { q: "Triangle a=7, b=5, c=6. Find angle A and area.", a: "cosA = (25+36−49)/60 = 12/60 = 0.2\nA ≈ 78.46°\nArea = ½×5×6×sin(78.46°) ≈ 14.7 sq units\nHeron's check: √[9×2×4×3]=√216≈14.7 ✓" }
+    },
+    {
+      title: "Polygons & Solid Shapes",
+      concept: "Interior angle sum of any n-sided polygon is (n−2)×180°, and exterior angles always add to 360°. For 3D shapes: volume is how much space is inside, surface area is the total area of all faces. Always find slant height l=√(h²+r²) before computing cone surface area.",
+      formulas: ["Interior sum: (n−2)×180°","Each interior (regular): (n−2)×180°/n","Each exterior (regular): 360°/n","Cylinder: V=πr²h; SA=2πr(r+h)","Cone: V=⅓πr²h; SA=πr(l+r); l=√(h²+r²)","Sphere: V=(4/3)πr³; SA=4πr²"],
+      tips: ["n=360°/exterior angle — work backwards from the exterior.","Hemisphere total SA=3πr² (includes flat base).","Cone: always find l BEFORE finding SA."],
+      eg: { q: "Regular polygon, interior angle=150°. Find exterior, n, and interior sum. Also cone r=12cm, h=5cm: find l, curved SA, total SA, V.", a: "Exterior=30°, n=12, Sum=1800°\n\nCone: l=√(25+144)=13cm\nCurved SA=156π≈490cm²\nTotal SA=300π≈943cm²\nV=240π≈754cm³" }
+    },
+
+    // ── NEW TOPICS FROM UPLOADED NOTES ──
+
+    {
+      title: "Conic Sections: Parabola, Ellipse & Hyperbola",
+      concept: "A conic section is a curve formed when a plane cuts a right circular cone. The three types are Parabola (e=1), Ellipse (0<e<1), and Hyperbola (e>1). Eccentricity e = distance from focus ÷ distance from directrix — it tells you which conic you have before you do any work.",
+      formulas: [
+        "PARABOLA — y² = 4ax: Vertex (0,0), Focus (a,0), Directrix x=−a, Latus Rectum = 4a",
+        "Parabola Tangent at (x₁,y₁): yy₁ = 2a(x + x₁)",
+        "Parabola Normal at (x₁,y₁): y − y₁ = −(y₁/2a)(x − x₁)",
+        "ELLIPSE — x²/a² + y²/b² = 1  (a>b): c²=a²−b², Foci (±c,0), e=c/a, Major=2a, Minor=2b, LR=2b²/a, Area=πab",
+        "Ellipse Tangent at (x₁,y₁): xx₁/a² + yy₁/b² = 1",
+        "Ellipse Normal at (x₁,y₁): y − y₁ = (a²y₁/b²x₁)(x − x₁)",
+        "HYPERBOLA — x²/a² − y²/b² = 1: c²=a²+b², Foci (±c,0), e=c/a, Transverse=2a, Conjugate=2b, LR=2b²/a, Asymptotes y=±(b/a)x",
+        "Hyperbola Tangent at (x₁,y₁): xx₁/a² − yy₁/b² = 1",
+        "Hyperbola Normal at (x₁,y₁): y − y₁ = −(a²y₁/b²x₁)(x − x₁)"
+      ],
+      tips: [
+        "KEY DIFFERENCE: Ellipse uses c²=a²−b² (subtraction); Hyperbola uses c²=a²+b² (addition). Mix these up and everything is wrong.",
+        "Eccentricity check: e=0 circle, 0<e<1 ellipse, e=1 parabola, e>1 hyperbola.",
+        "For parabola tangent/normal: find 'a' first by comparing to y²=4ax, then substitute (x₁,y₁).",
+        "Parabola and hyperbola are OPEN curves — no finite area or perimeter.",
+        "Ellipse area = πab. Don't confuse a and b — a is always the LARGER value (semi-major axis)."
+      ],
+      eg: { q: "For y²=16x: find vertex, focus, directrix, LR. For x²/25+y²/9=1: find foci, e, axes, area. For x²/16−y²/9=1: find foci, e, axes, LR, asymptotes.", a: "PARABOLA y²=16x: 4a=16 → a=4\nVertex (0,0), Focus (4,0), Directrix x=−4, LR=16\n\nELLIPSE x²/25+y²/9=1: a=5, b=3\nc²=25−9=16 → c=4\nFoci (±4,0), e=4/5, Major=10, Minor=6, Area=15π\n\nHYPERBOLA x²/16−y²/9=1: a=4, b=3\nc²=16+9=25 → c=5\nFoci (±5,0), e=5/4, Transverse=8, Conjugate=6\nLR=2×9/4=9/2, Asymptotes y=±(3/4)x" }
+    },
+    {
+      title: "The Parabola: Standard Form, Features & Tangents",
+      concept: "A parabola is the set of all points equidistant from a fixed point (focus) and a fixed line (directrix). Vertex form reveals the vertex easily. Complete the square to go from general to vertex form. The axis that isn't squared tells you the direction of opening.",
+      formulas: [
+        "Horizontal axis (opens right): y² = 4ax — Focus(a,0), Directrix x=−a",
+        "Vertex (h,k) Horizontal: (y−k)²=4a(x−h)",
+        "Vertex (h,k) Vertical: (x−h)²=4a(y−k) (opens up)",
+        "Length Latus Rectum = |4a|",
+        "Tangent at (x₁,y₁) on y²=4ax: yy₁ = 2a(x + x₁)",
+        "Gradient of tangent: dy/dx = 2a/y  (from implicit diff of y²=4ax)"
+      ],
+      tips: [
+        "Determine '4a' by direct comparison with standard form — don't guess.",
+        "The axis that is NOT squared = direction of opening.",
+        "Complete the square on the squared variable to find vertex from general form.",
+        "For tangent at point on curve, use yy₁=2a(x+x₁) — it's faster than implicit diff every time."
+      ],
+      eg: { q: "Find vertex, focus, directrix for y²−4x−4y+16=0. Find tangent at point (4,4).", a: "Complete square:\ny²−4y = 4x−16\n(y−2)² = 4(x−3)\nVertex (3,2), 4a=4 → a=1\n\nOpens RIGHT:\nFocus: (4,2)\nDirectrix: x=2\n\nTangent at (4,4) on (y−2)²=4(x−3):\nShift to origin: Y²=4X where Y=y−2, X=x−3\nPoint becomes (1,2). Tangent: Y(2)=2(X+1) → 2Y=2X+2\nBack-substitute: 2(y−2)=2(x−3)+2 → y=x" }
+    },
+    {
+      title: "The Ellipse: Standard Form, Eccentricity, Tangents & Normals",
+      concept: "An ellipse is the locus of points where the SUM of distances from two fixed foci is constant. Eccentricity (0 < e < 1) measures how flat it is — e close to 0 is nearly a circle, e close to 1 is very elongated. Foci always lie on the major axis.",
+      formulas: [
+        "Standard Form (horiz. major): (x−h)²/a² + (y−k)²/b² = 1  (a>b)",
+        "Standard Form (vert. major): (x−h)²/b² + (y−k)²/a² = 1  (a>b, a under y)",
+        "c² = a² − b²  (distance centre to focus)",
+        "Foci: (h±c, k) [horiz.] or (h, k±c) [vert.]",
+        "Eccentricity e = c/a  (0 < e < 1)",
+        "Major Axis = 2a; Minor Axis = 2b; Latus Rectum = 2b²/a; Area = πab",
+        "Tangent at (x₁,y₁) on origin ellipse: xx₁/a² + yy₁/b² = 1",
+        "Normal gradient: m_n = −1/m_t"
+      ],
+      tips: [
+        "a is ALWAYS the semi-major axis (the bigger one). Foci are always on the major axis.",
+        "e=0 is a perfect circle. Closer to 1 = more elongated.",
+        "Tangent formula xx₁/a²+yy₁/b²=1 only works if (x₁,y₁) is ON the ellipse — verify first.",
+        "Normal is always perpendicular to the tangent at that point."
+      ],
+      eg: { q: "Find major axis, foci, and eccentricity of 4(x+1)² + 9(y−2)² = 36. Is (−1, 0) on the ellipse?", a: "Standard form:\n(x+1)²/9 + (y−2)²/4 = 1\nCenter (−1,2), a²=9, b²=4 → a=3, b=2\nMajor axis = 2a = 6 (horizontal)\n\nc²=9−4=5 → c=√5\nFoci: (−1±√5, 2)\n\ne = √5/3 ≈ 0.745\n\nPoint (−1,0):\n4(−1+1)² + 9(0−2)² = 0+36=36 ✓ → ON the ellipse" }
+    },
+    {
+      title: "The Hyperbola: Asymptotes, Eccentricity & Conjugate Axis",
+      concept: "A hyperbola is the locus of points where the DIFFERENCE of distances from two fixed foci is constant. It has two branches guided by asymptotes — lines the curve approaches but never touches. Key: c²=a²+b² (ADDITION, unlike the ellipse).",
+      formulas: [
+        "Standard Form (horiz. transverse): (x−h)²/a² − (y−k)²/b² = 1",
+        "Standard Form (vert. transverse): (y−k)²/b² − (x−h)²/a² = 1",
+        "c² = a² + b²  (NOT subtraction — this is the big difference from ellipse)",
+        "Foci: (h±c, k) [horiz.] or (h, k±c) [vert.]",
+        "Eccentricity e = c/a  (e > 1)",
+        "Asymptotes (horiz.): y−k = ±(b/a)(x−h)",
+        "Asymptotes (vert.): x−h = ±(a/b)(y−k)",
+        "Transverse Axis = 2a; Conjugate Axis = 2b; LR = 2b²/a",
+        "Tangent at (x₁,y₁): xx₁/a² − yy₁/b² = 1"
+      ],
+      tips: [
+        "CRITICAL: Hyperbola c²=a²+b² (add). Ellipse c²=a²−b² (subtract). Never mix them.",
+        "Transverse axis = axis with the POSITIVE term in the standard form.",
+        "Asymptotes guide the branches — never touched, slope ±b/a for horizontal form.",
+        "e > 1 always for a hyperbola. The further from 1, the more open the branches."
+      ],
+      eg: { q: "Find transverse axis, foci, eccentricity, and asymptotes of 4x²−9y²−16x+18y+43=0.", a: "Complete square:\n4(x−2)² − 9(y−1)² = −36\nDivide by −36:\n(y−1)²/4 − (x−2)²/9 = 1\nVertical transverse axis. b²=4→b=2, a²=9→a=3\nTransverse axis = 2b = 4\n\nc²=9+4=13 → c=√13\nCenter (2,1). Foci: (2, 1±√13)\n\ne = √13/2 ≈ 1.80\n\nAsymptotes: (x−2) = ±(3/2)(y−1)\n→ 2x−3y−1=0 and 2x+3y−7=0" }
+    },
+    {
+      title: "Scalar Product (Dot Product) of Vectors",
+      concept: "The dot product maps two vectors to a scalar (a plain number). Geometrically it's the product of one vector's magnitude and the projection of the other onto it. The most important use: finding the angle between vectors and checking if two vectors are perpendicular (dot product = 0).",
+      formulas: [
+        "Geometric def: A·B = |A||B|cosθ",
+        "Component def (3D): A·B = a₁b₁ + a₂b₂ + a₃b₃",
+        "Magnitude: |A| = √(a₁²+a₂²+a₃²)",
+        "Angle: θ = cos⁻¹(A·B / (|A||B|))",
+        "Projection magnitude of A onto B: (A·B) / |B|",
+        "Projection vector of A onto B: ((A·B) / |B|²) × B",
+        "Direction Cosines: cosα=a₁/|A|, cosβ=a₂/|A|, cosγ=a₃/|A|",
+        "Orthogonal condition: A·B = 0"
+      ],
+      tips: [
+        "Dot product is commutative (A·B = B·A) and distributive.",
+        "A·A = |A|² — always the square of the magnitude.",
+        "Direction cosines satisfy cos²α+cos²β+cos²γ=1.",
+        "Perpendicular test: just compute A·B. If zero, they're perpendicular. Done."
+      ],
+      eg: { q: "A=2i+j−k, B=i+3j−2k. Find dot product, |A|, projection of A onto B, and angle θ.", a: "A·B = (2)(1)+(1)(3)+(−1)(−2) = 2+3+2 = 7\n\n|A| = √(4+1+1) = √6 ≈ 2.45\n|B| = √(1+9+4) = √14 ≈ 3.74\n\nProjection of A onto B = 7/√14 ≈ 1.87\n\ncosθ = 7/(√6×√14) = 7/√84 = √21/6\nθ = cos⁻¹(√21/6) ≈ 40.2°" }
+    },
+    {
+      title: "Vector Product (Cross Product) of Vectors",
+      concept: "The cross product maps two vectors to a NEW vector that is perpendicular to BOTH. The magnitude equals the area of the parallelogram formed by the two vectors. Direction follows the right-hand rule. Unlike dot product, cross product is NOT commutative.",
+      formulas: [
+        "Geometric (magnitude): |A×B| = |A||B|sinθ",
+        "Component def (3×3 determinant):\nA×B = |i  j  k |\n       |a₁ a₂ a₃|\n       |b₁ b₂ b₃|\n= i(a₂b₃−a₃b₂) − j(a₁b₃−a₃b₁) + k(a₁b₂−a₂b₁)",
+        "A×B = −B×A  (non-commutative!)",
+        "Area of parallelogram with sides A, B = |A×B|",
+        "Area of triangle with sides A, B = ½|A×B|",
+        "Parallel vectors → A×B = 0"
+      ],
+      tips: [
+        "Result is a VECTOR, not a number — direction matters.",
+        "A×B ≠ B×A — reversing order flips the sign of every component.",
+        "Expand the determinant along the first row: +i, −j, +k cofactors.",
+        "Parallel check: if A×B = zero vector, the vectors are parallel (or one is zero)."
+      ],
+      eg: { q: "A=i−j+2k, B=2i+j−k. Find A×B, its magnitude, and the area of the parallelogram.", a: "A×B = |i   j  k|\n       |1  −1  2|\n       |2   1 −1|\n\n= i((−1)(−1)−2(1)) − j((1)(−1)−2(2)) + k((1)(1)−(−1)(2))\n= i(1−2) − j(−1−4) + k(1+2)\n= −i + 5j + 3k\n\n|A×B| = √(1+25+9) = √35 ≈ 5.92\n\nParallelogram area = √35 sq units" }
+    },
+    {
+      title: "Scalar & Vector Triple Products",
+      concept: "Triple products combine dot and cross products with three vectors. The scalar triple product gives a number — its absolute value is the volume of the parallelepiped formed by the three vectors. If it equals zero, the vectors are coplanar. The vector triple product gives a new vector via the Lagrange identity.",
+      formulas: [
+        "Scalar Triple Product: A·(B×C) = det |a₁ a₂ a₃; b₁ b₂ b₃; c₁ c₂ c₃|",
+        "Volume of parallelepiped = |A·(B×C)|",
+        "Coplanar check: A·(B×C) = 0",
+        "Cyclic property: A·(B×C) = B·(C×A) = C·(A×B)",
+        "Vector Triple Product (Lagrange): A×(B×C) = (A·C)B − (A·B)C",
+        "Non-associative: A×(B×C) ≠ (A×B)×C"
+      ],
+      tips: [
+        "Scalar triple product is cyclic — rotating the three vectors doesn't change the value.",
+        "Reversing ANY two vectors in scalar triple product changes the sign.",
+        "Lagrange formula mnemonic: 'BAC minus CAB' — (A·C)B − (A·B)C.",
+        "Volume formula uses absolute value — sign of the determinant only tells you orientation."
+      ],
+      eg: { q: "A=2i+j+k, B=−i+2j+3k, C=i−k. Find A·(B×C) and A×(B×C).", a: "Scalar Triple (Determinant):\n| 2  1  1|\n|−1  2  3|\n| 1  0 −1|\n= 2(2(−1)−3(0)) − 1((−1)(−1)−3(1)) + 1((−1)(0)−2(1))\n= 2(−2) − 1(1−3) + 1(−2)\n= −4+2−2 = −4\n\nVector Triple (Lagrange):\nA·C = (2)(1)+(1)(0)+(1)(−1) = 1\nA·B = (2)(−1)+(1)(2)+(1)(3) = 3\nA×(B×C) = (1)B − (3)C\n= (−i+2j+3k) − (3i−3k)\n= −4i+2j+6k" }
+    },
+    {
+      title: "Partial Derivatives & Vector Differential Operators",
+      concept: "Extends differentiation to functions of multiple variables and vector fields. The three key operators are: Gradient (∇f) — turns a scalar field into a vector pointing in the direction of steepest increase; Divergence (∇·V) — measures how much a vector field 'spreads out'; Curl (∇×V) — measures the rotational tendency of a vector field.",
+      formulas: [
+        "Partial derivative of V(u,v): ∂V/∂u computed component by component",
+        "Gradient: ∇f = (∂f/∂x)i + (∂f/∂y)j + (∂f/∂z)k  [scalar → vector]",
+        "Divergence: ∇·V = ∂v₁/∂x + ∂v₂/∂y + ∂v₃/∂z  [vector → scalar]",
+        "Curl: ∇×V = det |i  j  k; ∂/∂x ∂/∂y ∂/∂z; v₁ v₂ v₃|  [vector → vector]",
+        "Laplacian: ∇²f = ∂²f/∂x² + ∂²f/∂y² + ∂²f/∂z²",
+        "Identity 1: ∇×(∇f) = 0  (curl of gradient is always zero)",
+        "Identity 2: ∇·(∇×V) = 0  (divergence of curl is always zero)"
+      ],
+      tips: [
+        "Remember what each operator outputs: gradient → vector, divergence → scalar, curl → vector.",
+        "Curl determinant: Row 1 is i,j,k; Row 2 is partial operators; Row 3 is field components.",
+        "Identities are useful for proofs — if you see curl of a gradient or div of a curl, it's always zero.",
+        "Laplacian is just the divergence of the gradient — you apply ∇ twice."
+      ],
+      eg: { q: "f=x²y³z⁴. Find ∇f. Let V=xyi+yzj+zxk. Find ∇·V and ∇×V.", a: "∇f:\n∂f/∂x=2xy³z⁴, ∂f/∂y=3x²y²z⁴, ∂f/∂z=4x²y³z³\n∇f = 2xy³z⁴ i + 3x²y²z⁴ j + 4x²y³z³ k\n\n∇·V:\n∂(xy)/∂x + ∂(yz)/∂y + ∂(zx)/∂z = y+z+x\n\n∇×V:\n|i   j   k  |\n|∂/∂x ∂/∂y ∂/∂z|\n|xy  yz  zx |\n= i(∂(zx)/∂y−∂(yz)/∂z) − j(∂(zx)/∂x−∂(xy)/∂z) + k(∂(yz)/∂x−∂(xy)/∂y)\n= i(0−y) − j(z−0) + k(0−x)\n= −yi − zj − xk" }
+    },
+  ]
+},
   {
     id: "cos102", name: "COS 102", sub: "Problem Solving in CS", color: "#f472b6",
     topics: [
