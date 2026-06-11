@@ -92,7 +92,7 @@ Respond naturally. Understand what he needs and deliver it his way.
 
         messages = [SystemMessage(content=system_prompt)]
 
-        for msg in req.history[-6]:
+        for msg in req.history[-6:]:
             if msg.role == "user":
                 messages.append(HumanMessage(content=msg.text))
             elif msg.role == "ai":
